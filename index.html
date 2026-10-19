@@ -5238,12 +5238,32 @@ function nuvemBaixarRemoto(){
 /* ---------- instalar como app ---------- */
 var promptInstalar = null;
 function podeInstalar(){ return !!promptInstalar; }
+function jaInstalado(){
+  try {
+    if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) return true;
+    if (window.navigator.standalone === true) return true;
+  } catch(e){}
+  return false;
+}
 function instalarApp(){
+  if (jaInstalado()) {
+    abrirSheet(
+      '<div class="sheet-head"><h2>Já está instalado</h2>' +
+        '<button class="iconbtn" data-act="fechar" aria-label="Fechar">' + ico('close') + '</button></div>' +
+      '<p class="hint" style="margin-top:6px">Você está usando o app instalado agora mesmo — é por isso ' +
+        'que não aparece a barra de endereço. Para abrir depois, procure o ícone na tela inicial.</p>'
+    );
+    return;
+  }
   if (!promptInstalar) {
     abrirSheet(
       '<div class="sheet-head"><h2>Instalar no celular</h2>' +
         '<button class="iconbtn" data-act="fechar" aria-label="Fechar">' + ico('close') + '</button></div>' +
-      '<p class="hint" style="margin-top:6px">Abra este endereço no navegador do celular e use o menu:</p>' +
+      '<div class="note note-mut" style="margin-top:8px"><b>Se o Android disser que já está instalado</b>, ' +
+        'é porque está mesmo: procure <b>Meu dinheiro</b> na gaveta de aplicativos ou na tela inicial. ' +
+        'O Chrome esconde o convite de instalar quando o app já existe no aparelho.</div>' +
+      '<p class="hint" style="margin-top:12px">Ainda não instalou? Abra este endereço no navegador ' +
+        'do celular e use o menu:</p>' +
       '<div class="rows" style="margin-top:10px">' +
         '<div class="row"><span class="row-mid"><span class="row-t">Android / Chrome</span>' +
           '<span class="row-s">Menu ⋮ → <b>Adicionar à tela inicial</b> → Instalar</span></span></div>' +

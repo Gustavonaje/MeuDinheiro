@@ -2,6 +2,7 @@
   "name": "Meu dinheiro",
   "short_name": "Meu dinheiro",
   "description": "Controle de gastos, metas, cartões e quem me deve.",
+  "id": "meu-dinheiro-app",
   "lang": "pt-BR",
   "dir": "ltr",
   "start_url": ".",
