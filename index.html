@@ -59,6 +59,8 @@
 
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
+html{overflow-x:clip}
+body{overflow-x:clip}
 body{
   background:var(--bg); color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
@@ -69,7 +71,7 @@ button{cursor:pointer;background:none;border:0;padding:0;text-align:inherit}
 :focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:6px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 .num{font-variant-numeric:tabular-nums;letter-spacing:-.012em}
-.eyebrow{font-size:10.5px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3)}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-3)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .pos{color:var(--pos)} .neg{color:var(--neg)} .res{color:var(--res)}
 .com{color:var(--com)} .rec{color:var(--rec)} .mut{color:var(--ink-3)}
@@ -90,7 +92,7 @@ button{cursor:pointer;background:none;border:0;padding:0;text-align:inherit}
 .logo{width:30px;height:30px;border-radius:9px;background:var(--brand);color:var(--on-brand);
   display:grid;place-items:center;font-size:12.5px;font-weight:800;flex:none}
 
-.iconbtn{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;
+.iconbtn{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
   color:var(--ink-2);background:var(--surface);border:1px solid var(--line);flex:none}
 .iconbtn:hover{color:var(--ink);border-color:var(--ink-3)}
 .iconbtn svg{width:18px;height:18px}
@@ -114,6 +116,7 @@ button{cursor:pointer;background:none;border:0;padding:0;text-align:inherit}
   .side-total{padding:10px;border-radius:var(--r);background:var(--surface-2)}
   .side-total .v{font-size:19px;font-weight:750;letter-spacing:-.025em;margin-top:2px}
   .content{padding:22px 28px;padding-bottom:40px}
+  .iconbtn{width:36px;height:36px;border-radius:9px}
   .topbar-in{padding:14px 28px}
   .topbar h1{font-size:21px}
   .botnav,.fab{display:none!important}
@@ -132,19 +135,24 @@ button{cursor:pointer;background:none;border:0;padding:0;text-align:inherit}
   width:54px;height:54px;border-radius:17px;background:var(--brand);color:var(--on-brand);
   display:grid;place-items:center;box-shadow:var(--shadow-lg)}
 .fab svg{width:24px;height:24px}
+.fab{transition:transform .22s ease,opacity .18s ease}
+.fab.oculto{transform:translateY(96px) scale(.9);opacity:0;pointer-events:none}
 
 /* ---------------- blocos ---------------- */
-.grid{display:grid;gap:14px}
+.grid{display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
+.grid > *{min-width:0}
 @media (min-width:900px){
-  .grid-2{grid-template-columns:1fr 1fr}
-  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-2{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
   padding:16px;box-shadow:var(--shadow)}
 .card + .card{margin-top:14px}
-.card-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.card-head h2{font-size:14px;font-weight:700;margin:0;letter-spacing:-.01em;flex:1}
-.link{font-size:12.5px;font-weight:650;color:var(--brand)}
+.card-head{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.card-head h2{font-size:14px;font-weight:700;margin:0;letter-spacing:-.01em;flex:1 1 auto;min-width:0}
+.card-head > *{min-width:0}
+.link{font-size:12.5px;font-weight:650;color:var(--brand);
+  display:inline-flex;align-items:center;min-height:36px;margin-block:-9px;flex:none}
 
 /* hero patrimônio + barra de composição */
 .hero{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
@@ -155,16 +163,22 @@ button{cursor:pointer;background:none;border:0;padding:0;text-align:inherit}
   background:var(--surface-2);border:1px solid var(--line-2)}
 .comp-seg{min-width:2px;transition:filter .15s}
 .comp-seg:hover{filter:brightness(1.12)}
-.comp-legend{display:grid;gap:8px;margin-top:14px}
-@media (min-width:640px){.comp-legend{grid-template-columns:repeat(3,1fr)}}
+.comp-legend{display:grid;gap:8px;margin-top:14px;grid-template-columns:minmax(0,1fr)}
+@media (min-width:640px){.comp-legend{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .leg{display:flex;align-items:flex-start;gap:8px;text-align:left;width:100%}
 .leg .sw{width:10px;height:10px;border-radius:3px;flex:none;margin-top:5px}
 .leg .n{font-size:12px;color:var(--ink-2);font-weight:600;display:block}
 .leg .v{font-size:15px;font-weight:720;display:block;margin-top:1px}
 
 /* tiles */
-.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-@media (min-width:900px){.tiles{grid-template-columns:repeat(4,1fr)}}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.tiles > *{min-width:0}
+.tiles-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:559px){
+  .tiles-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tiles-3 > :last-child:nth-child(3){grid-column:1 / -1}
+}
+@media (min-width:900px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
   padding:13px 14px;text-align:left;box-shadow:var(--shadow)}
 .tile:hover{border-color:var(--ink-3)}
@@ -193,7 +207,19 @@ button.row:hover{background:var(--surface-2)}
 .dayhead .d{font-size:12px;font-weight:700;color:var(--ink-2);text-transform:capitalize}
 .dayhead .t{font-size:12px;color:var(--ink-3)}
 
+.tbl-rola{overflow-x:auto;-webkit-overflow-scrolling:touch}
 table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+@media (max-width:420px){
+  table.tbl{font-size:12.5px}
+  .tbl th,.tbl td{padding:8px 7px}
+  .tbl th:first-child,.tbl td:first-child{padding-left:2px}
+  .tbl th:last-child,.tbl td:last-child{padding-right:2px}
+}
+@media (max-width:380px){
+  .topbar-nuvem .nuvem-pill span{display:none}
+  .topbar-nuvem .nuvem-pill{padding:0;border-radius:999px;
+    width:38px;height:38px;justify-content:center}
+}
 .tbl th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
   color:var(--ink-3);padding:8px 10px;border-bottom:1px solid var(--line)}
 .tbl td{padding:9px 10px;border-bottom:1px solid var(--line-2)}
@@ -206,16 +232,24 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .bar{display:flex;height:7px;border-radius:99px;background:var(--surface-2);overflow:hidden;border:1px solid var(--line-2)}
 .bar span{display:block;height:100%;border-radius:99px;flex:none}
 .bar span.proj{background:repeating-linear-gradient(135deg,var(--rec) 0 5px,color-mix(in srgb,var(--rec) 55%,transparent) 5px 10px)}
+.meta-linha{display:flex;justify-content:space-between;gap:12px;font-size:12.5px;
+  color:var(--ink-3);margin-top:7px}
+.meta-linha > *{min-width:0}
+@media (max-width:559px){
+  .meta-linha{display:grid;grid-template-columns:1fr;gap:2px}
+  .btn-nova{width:100%}
+}
+.catlinha{display:block;width:100%;padding:7px 2px;margin-bottom:3px;border-radius:8px}
+.catlinha:hover{background:var(--surface-2)}
 .minibars{display:flex;gap:3px;height:7px}
 .minibars span{border-radius:99px}
 
 /* chips e tags */
-.chips{display:flex;gap:7px;overflow-x:auto;padding:2px 0;scrollbar-width:none}
-.chips::-webkit-scrollbar{display:none}
-.chip{flex:none;padding:7px 13px;border-radius:999px;font-size:13px;font-weight:620;
+.chips{display:flex;flex-wrap:wrap;gap:7px;padding:2px 0}
+.chip{flex:none;padding:9px 14px;border-radius:999px;font-size:13px;font-weight:620;
   background:var(--surface);border:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
 .chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
-.tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;
   padding:2px 8px;border-radius:999px;white-space:nowrap}
 .tag svg{width:11px;height:11px}
 .t-pos{background:var(--pos-bg);color:var(--pos)}
@@ -263,21 +297,25 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .scrim{position:fixed;inset:0;z-index:100;background:rgba(10,16,20,.5);opacity:0;visibility:hidden;
   transition:opacity .18s ease,visibility .18s;display:flex;align-items:flex-end;justify-content:center}
 .scrim.open{opacity:1;visibility:visible}
-.sheet{background:var(--surface);width:100%;max-width:560px;max-height:92vh;overflow-y:auto;
+.sheet{background:var(--surface);width:100%;max-width:560px;max-height:92vh;max-height:92dvh;
+  overflow-y:auto;overscroll-behavior:contain;
   border-radius:20px 20px 0 0;padding:6px 16px calc(20px + env(safe-area-inset-bottom));
   transform:translateY(12px);transition:transform .2s cubic-bezier(.2,.8,.3,1)}
 .scrim.open .sheet{transform:translateY(0)}
 @media (min-width:720px){
   .scrim{align-items:center}
-  .sheet{border-radius:16px;max-height:88vh;padding:6px 22px 22px}
+  .sheet{border-radius:16px;max-height:88vh;max-height:88dvh;padding:6px 22px 22px}
   .sheet.wide{max-width:760px}
 }
 .grabber{width:38px;height:4px;border-radius:99px;background:var(--line);margin:6px auto 10px}
 @media (min-width:720px){.grabber{display:none}}
 .sheet-head{display:flex;align-items:center;gap:10px;margin:4px 0 2px}
 .sheet-head h2{font-size:17px;font-weight:720;margin:0;letter-spacing:-.02em;flex:1}
-.sheet-actions{display:flex;gap:9px;margin-top:18px}
-.sheet-actions .btn{flex:1}
+.sheet-actions{display:flex;gap:9px;margin-top:18px;position:sticky;bottom:0;z-index:3;
+  background:var(--surface);padding:12px 0 2px;
+  box-shadow:0 -10px 14px -10px rgba(16,23,28,.18)}
+.sheet-actions .btn{flex:1;min-width:0}
+@media (min-width:720px){.sheet-actions{box-shadow:none;padding-bottom:0}}
 
 /* ---------------- formulários ---------------- */
 .field{margin-top:13px}
@@ -290,16 +328,34 @@ select.input{appearance:none}
 .hint{font-size:11.5px;color:var(--ink-3);margin-top:5px;line-height:1.45}
 .money{height:60px;font-size:27px;font-weight:750;letter-spacing:-.03em;text-align:center;
   font-variant-numeric:tabular-nums}
-.row-2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.row-3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.seg{display:grid;grid-auto-flow:column;gap:4px;background:var(--surface-2);border:1px solid var(--line);
-  border-radius:var(--r);padding:3px}
+.row-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.row-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.row-2 > *,.row-3 > *{min-width:0}
+@media (max-width:559px){
+  .row-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .row-3 > :last-child:nth-child(3){grid-column:1 / -1}
+}
+/* linha de botões: vira grade de dois no celular, sem botão espremido */
+.btnrow{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+.btnrow .btn{flex:1 1 auto}
+/* três números lado a lado */
+.statrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.statrow > *{min-width:0}
+@media (max-width:559px){
+  .statrow{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .statrow > :last-child:nth-child(3){grid-column:1 / -1}
+  .btnrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .btnrow .btn{width:100%}
+  .btnrow > .btn-block{grid-column:1 / -1}
+}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;
+  background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r);padding:3px}
 .seg button{height:38px;border-radius:7px;font-size:13px;font-weight:650;color:var(--ink-2);
   display:flex;align-items:center;justify-content:center;gap:5px}
 .seg button svg{width:14px;height:14px}
 .seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
-.seg.tipos{grid-auto-flow:row;grid-template-columns:repeat(3,1fr)}
-@media (min-width:560px){.seg.tipos{grid-template-columns:repeat(5,1fr)}}
+.seg.tipos{grid-auto-flow:row;grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (min-width:560px){.seg.tipos{grid-template-columns:repeat(5,minmax(0,1fr))}}
 .catgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:6px}
 .catbtn{display:flex;align-items:center;gap:7px;padding:9px;border-radius:9px;border:1px solid var(--line);
   background:var(--surface-2);font-size:12.5px;font-weight:600;line-height:1.2;min-height:40px}
@@ -322,8 +378,37 @@ select.input{appearance:none}
   font-size:13.5px;font-weight:620;box-shadow:var(--shadow-lg);opacity:0;visibility:hidden;
   transition:opacity .18s,transform .18s,visibility .18s;max-width:88vw;text-align:center}
 .toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+body:has(.scrim.open) .toast{bottom:auto;top:12px;transform:translate(-50%,-10px)}
+body:has(.scrim.open) .toast.show{transform:translate(-50%,0)}
 @media (min-width:1024px){.toast{bottom:28px}}
 .toast .undo{margin-left:10px;color:var(--brand-2);font-weight:750;text-decoration:underline}
+
+.filtros-extra[hidden]{display:none}
+@media (min-width:1024px){
+  .filtros-botao{display:none}
+  .filtros-extra[hidden]{display:grid}
+}
+
+/* ---------------- acertos de celular ---------------- */
+@media (max-width:1023px){
+  .btn-sm{height:auto;min-height:40px;padding:8px 12px;white-space:normal;line-height:1.25}
+  .seg button{height:auto;min-height:40px;padding:6px 4px;white-space:normal;line-height:1.2}
+  .seg.tipos button{font-size:12.5px}
+  .chip{min-height:38px}
+  .row-t,.row-s{white-space:normal;display:-webkit-box;-webkit-box-orient:vertical;
+    -webkit-line-clamp:2;overflow:hidden}
+  .row{align-items:flex-start;padding:12px 13px}
+  .row-ic{margin-top:1px}
+  .row-v{align-self:center}
+  .catgrid{grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:5px}
+  .catbtn{min-height:40px;padding:8px;font-size:12px;gap:6px}
+  .chart text{font-size:10.5px}
+  .toast{font-size:14px;padding:12px 18px}
+  .toast .undo{padding:4px 0;display:inline-block}
+}
+@media (max-width:420px){
+  .seg.tipos button svg{display:none}
+}
 
 /* ---------- selo da nuvem ---------- */
 .nuvem-pill{display:inline-flex;align-items:center;gap:6px;max-width:100%;
@@ -340,8 +425,21 @@ select.input{appearance:none}
 .nuvem-pill.n-busy .dot{animation:pulso 1.3s ease-in-out infinite}
 @keyframes pulso{0%,100%{opacity:.35}50%{opacity:1}}
 .topbar-nuvem{flex:none;max-width:46vw}
+@media (max-width:1023px){
+  .nuvem-pill.n-quieto span{display:none}
+  .nuvem-pill.n-quieto{padding:0;border-radius:999px;
+    width:38px;height:38px;justify-content:center}
+  .nuvem-pill.n-quieto .dot{width:9px;height:9px}
+}
 @media (min-width:1024px){ .topbar-nuvem{display:none} }
 .side-foot .nuvem-pill{width:100%;justify-content:flex-start}
+@media (max-width:1023px){
+  .nuvem-pill{padding:11px 13px;font-size:12px}
+  .link{min-height:40px;margin-block:-11px}
+  .navbtn{font-size:10.5px}
+  .toast .undo{padding:6px 0 6px 10px;margin-left:0}
+  .content{padding-bottom:126px}
+}
 
 </style>
 </head>
@@ -1310,7 +1408,7 @@ var migrou = false;
 var UI = {
   tela:'visao',
   mes:F.mesAtual(),
-  movTipo:'todos', movConta:'', movCat:'', movBusca:'', movPeriodo:'mes',
+  movTipo:'todos', movConta:'', movCat:'', movBusca:'', movPeriodo:'mes', movFiltros:false,
   contaAberta:'', cartaoAberto:'', cartaoComp:'',
   pendAba:'receber',
   relPeriodo:'3m', relDe:'', relAte:'',
@@ -1531,6 +1629,23 @@ function render(){
     botnav;
 }
 
+/* o botão + sai da frente enquanto a pessoa desce a tela */
+(function(){
+  var ultimoY = 0, voltaT = null;
+  try {
+    window.addEventListener('scroll', function(){
+      var f = document.querySelector('.fab');
+      if (!f) return;
+      var y = window.scrollY || document.documentElement.scrollTop || 0;
+      if (y > ultimoY + 6 && y > 140) f.classList.add('oculto');
+      else if (y < ultimoY - 6) f.classList.remove('oculto');
+      ultimoY = y;
+      clearTimeout(voltaT);
+      voltaT = setTimeout(function(){ f.classList.remove('oculto'); }, 800);
+    }, { passive:true });
+  } catch(e){}
+})();
+
 function avisoArmazenamento(){
   var out = '';
   if (!storageOK) {
@@ -1562,17 +1677,18 @@ function barraComposicao(ind){
     { n:'Devo a pessoas', v:ind.aPagarPessoas,         c:'var(--neg)', t:'neg', tela:'pend' }
   ].filter(function(p){ return p.v > 0; });
   var soma = partes.reduce(function(s,p){ return s + p.v; }, 0) || 1;
+  /* a barra é desenho: quem recebe o toque é a legenda, que tem rótulo e tamanho de dedo */
   var segs = partes.map(function(p){
-    return '<button class="comp-seg" style="width:' + (p.v/soma*100).toFixed(2) + '%;background:' + p.c + '" ' +
-      'data-act="ir" data-id="' + p.tela + '" title="' + p.n + ': ' + fmt(p.v) + '" ' +
-      'aria-label="' + p.n + ': ' + fmt(p.v) + '"></button>';
+    return '<span class="comp-seg" style="width:' + (p.v/soma*100).toFixed(2) + '%;background:' + p.c + '" ' +
+      'title="' + p.n + ': ' + fmt(p.v) + '"></span>';
   }).join('');
   var legenda = partes.map(function(p){
     return '<button class="leg" data-act="ir" data-id="' + p.tela + '">' +
       '<span class="sw" style="background:' + p.c + '"></span>' +
       '<span><span class="n">' + p.n + '</span><span class="v num ' + p.t + '">' + fmt(p.v) + '</span></span></button>';
   }).join('');
-  return { barra: segs ? '<div class="comp">' + segs + '</div>' : '',
+  return { barra: segs ? '<div class="comp" role="img" aria-label="' +
+             esc(partes.map(function(p){ return p.n + ' ' + fmt(p.v); }).join(', ')) + '">' + segs + '</div>' : '',
            legenda: legenda ? '<div class="comp-legend">' + legenda + '</div>' : '' };
 }
 
@@ -1690,7 +1806,7 @@ function telaVisao(){
       '<div class="empty-ic">' + ico('wallet') + '</div>' +
       '<h3>Vamos começar pelo começo</h3>' +
       '<p>Cadastre suas contas com o saldo que elas têm hoje. A partir daí é só registrar o que entra e o que sai — o sistema cuida do resto.</p>' +
-      '<div style="display:flex;gap:9px;justify-content:center;flex-wrap:wrap;margin-top:14px">' +
+      '<div class="btnrow" style="justify-content:center">' +
         '<button class="btn btn-primary" data-act="conta-nova">' + ico('plus') + ' Cadastrar conta</button>' +
         '<button class="btn btn-ghost" data-act="exemplo">Ver com dados de exemplo</button>' +
       '</div></div></div>';
@@ -1733,12 +1849,12 @@ function telaVisao(){
     '<section class="card">' +
       '<div class="card-head"><h2>Movimento de ' + F.mesLabel(UI.mes) + '</h2>' +
         '<button class="link" data-act="ir" data-id="mov">Ver extrato</button></div>' +
-      '<div style="display:flex;gap:16px;flex-wrap:wrap">' +
-        '<div style="flex:1;min-width:110px"><div class="eyebrow">Entrou</div>' +
+      '<div class="statrow">' +
+        '<div><div class="eyebrow">Entrou</div>' +
           '<div class="num pos" style="font-size:19px;font-weight:720">' + fmt(r.totalReceitas) + '</div></div>' +
-        '<div style="flex:1;min-width:110px"><div class="eyebrow">Saiu</div>' +
+        '<div><div class="eyebrow">Saiu</div>' +
           '<div class="num neg" style="font-size:19px;font-weight:720">' + fmt(r.totalDespesas) + '</div></div>' +
-        '<div style="flex:1;min-width:110px"><div class="eyebrow">Sobrou</div>' +
+        '<div><div class="eyebrow">Sobrou</div>' +
           '<div class="num" style="font-size:19px;font-weight:720;color:' + (r.saldo >= 0 ? 'var(--ink)' : 'var(--neg)') + '">' + fmt(r.saldo) + '</div></div>' +
       '</div>' +
       '<div class="minibars" style="margin-top:12px">' +
@@ -1840,7 +1956,7 @@ function topCategorias(despesas, total, n){
   return cats.map(function(c){
     var info = F.categoria('despesa', c.chave);
     var pc = total > 0 ? c.total/total*100 : 0;
-    return '<button data-act="drill-cat" data-id="' + esc(c.chave) + '" style="display:block;width:100%;margin-bottom:9px">' +
+    return '<button class="catlinha" data-act="drill-cat" data-id="' + esc(c.chave) + '">' +
       '<div style="display:flex;justify-content:space-between;gap:10px;font-size:13px;margin-bottom:4px">' +
         '<span style="display:flex;align-items:center;gap:6px"><span class="sw" style="width:9px;height:9px;border-radius:3px;background:' + info.cor + '"></span>' + esc(c.chave) + '</span>' +
         '<span class="num" style="font-weight:680">' + fmt(c.total) + ' <span class="mut" style="font-weight:600">' + pc.toFixed(0) + '%</span></span></div>' +
@@ -1858,7 +1974,7 @@ function linhaConta(c){
   return '<button class="row" data-act="conta-abrir" data-id="' + c.id + '">' +
     '<span class="row-ic" style="background:' + (c.cor||'var(--rec)') + '">' + esc(iniciais(c.nome)) + '</span>' +
     '<span class="row-mid"><span class="row-t">' + esc(c.nome) +
-      (c.tipo !== 'corrente' ? ' <span class="tag t-res" style="font-size:9.5px;padding:1px 6px">' + rotulo + '</span>' : '') + '</span>' +
+      (c.tipo !== 'corrente' ? ' <span class="tag t-res">' + rotulo + '</span>' : '') + '</span>' +
     '<span class="row-s">' + (m ? 'meta: ' + esc(m.nome) : rotulo) + '</span></span>' +
     '<span class="row-v num">' + fmt(s) + '</span></button>';
 }
@@ -1915,8 +2031,8 @@ function telaMovimentacoes(){
       '<div style="display:flex;align-items:center;gap:9px;background:var(--surface-2);border:1px solid var(--line);' +
         'border-radius:var(--r);padding:0 12px;height:44px">' +
         ico('search','width:16px;height:16px;color:var(--ink-3);flex:none') +
-        '<input id="busca" type="search" placeholder="Buscar por descrição, categoria, conta ou anotação" ' +
-          'value="' + esc(UI.movBusca) + '" style="flex:1;border:0;background:none;outline:none;font-size:14px;min-width:0">' +
+        '<input id="busca" type="search" placeholder="Buscar lançamento" ' +
+          'value="' + esc(UI.movBusca) + '" style="flex:1;align-self:stretch;height:100%;border:0;background:none;outline:none;font-size:15px;min-width:0">' +
       '</div>' +
       '<div class="chips" style="margin-top:10px">' +
         [['todos','Tudo'],['despesa','Despesas'],['receita','Receitas'],['transferencia','Transferências'],['outros','Empréstimos e faturas']]
@@ -1925,7 +2041,15 @@ function telaMovimentacoes(){
               (UI.movTipo===t[0]) + '">' + t[1] + '</button>';
           }).join('') +
       '</div>' +
-      '<div class="row-3" style="margin-top:10px">' +
+      (function(){
+        var ativos = (UI.movPeriodo !== 'mes' ? 1 : 0) + (UI.movConta ? 1 : 0) + (UI.movCat ? 1 : 0);
+        return '<button class="btn btn-ghost btn-sm filtros-botao" data-act="mov-filtros" ' +
+          'aria-expanded="' + (UI.movFiltros || ativos > 0) + '" style="margin-top:10px;width:100%">' +
+          (UI.movFiltros || ativos ? 'Esconder filtros' : 'Mais filtros') +
+          (ativos ? ' <span class="tag t-com">' + ativos + '</span>' : '') + '</button>';
+      })() +
+      '<div class="filtros-extra row-3" style="margin-top:10px"' +
+        ((UI.movFiltros || UI.movPeriodo !== 'mes' || UI.movConta || UI.movCat) ? '' : ' hidden') + '>' +
         '<select class="input" id="flPeriodo">' + PERIODOS.map(function(p){
           return '<option value="' + p.id + '"' + (UI.movPeriodo===p.id?' selected':'') + '>' + p.nome + '</option>';
         }).join('') + '</select>' +
@@ -1985,7 +2109,7 @@ function telaMovimentacoes(){
   }).join('');
 
   return filtros +
-    '<div class="tiles" style="grid-template-columns:repeat(3,1fr)">' +
+    '<div class="tiles tiles-3">' +
       '<div class="tile"><div class="l">Entrou</div><div class="v num pos">' + fmt(tr) + '</div></div>' +
       '<div class="tile"><div class="l">Saiu</div><div class="v num neg">' + fmt(td) + '</div></div>' +
       '<div class="tile"><div class="l">Diferença</div><div class="v num">' + fmt(tr-td) + '</div></div>' +
@@ -2012,7 +2136,7 @@ function telaContas(){
       '<div class="eyebrow">Somando todas as contas</div>' +
       '<div class="hero-v num">' + fmt(total) + '</div>' +
     '</section>' +
-    '<div style="display:flex;gap:9px;margin-top:14px;flex-wrap:wrap">' +
+    '<div class="btnrow" style="margin-top:14px">' +
       '<button class="btn btn-primary" data-act="conta-nova">' + ico('plus') + ' Nova conta</button>' +
       '<button class="btn btn-ghost" data-act="novo-transferencia">' + ico('swap') + ' Transferir entre contas</button>' +
     '</div>' +
@@ -2090,7 +2214,7 @@ function telaCartoes(){
           '<h2 style="font-size:15px">' + esc(c.nome) + '</h2>' +
           '<button class="iconbtn" data-act="cartao-editar" data-id="' + c.id + '" aria-label="Editar cartão">' + ico('edit') + '</button>' +
         '</div>' +
-        '<div style="display:flex;gap:16px;flex-wrap:wrap">' +
+        '<div class="statrow">' +
           '<div style="flex:1;min-width:130px"><div class="eyebrow">Fatura de ' + F.mesLabel(compAtual, true) + '</div>' +
             '<div class="num" style="font-size:21px;font-weight:740">' + fmt(f.total) + '</div>' +
             '<div style="font-size:11.5px;color:var(--ink-3)">vence ' + F.dataCurta(f.vencimento) +
@@ -2104,7 +2228,7 @@ function telaCartoes(){
           '%;background:' + (pc > 85 ? 'var(--neg)' : 'var(--com)') + '"></span></div>' +
           '<div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-3);margin-top:4px">' +
             '<span class="num">usado ' + fmt(usado) + '</span><span class="num">limite ' + fmt(c.limite) + '</span></div></div>' : '') +
-        '<div style="display:flex;gap:9px;margin-top:13px;flex-wrap:wrap">' +
+        '<div class="btnrow" style="margin-top:13px">' +
           '<button class="btn btn-ghost btn-sm" data-act="cartao-abrir" data-id="' + c.id + '">Ver faturas</button>' +
           '<button class="btn btn-ghost btn-sm" data-act="nova-compra" data-id="' + c.id + '">' + ico('plus') + ' Lançar compra</button>' +
           (f.aberto > 0 ? '<button class="btn btn-primary btn-sm" data-act="fatura-pagar" data-id="' + c.id +
@@ -2422,7 +2546,7 @@ function telaMetas(){
           '</div>'
         : '') +
     '</section>' +
-    '<button class="btn btn-primary" style="margin-top:14px" data-act="meta-nova">' + ico('plus') + ' Nova meta</button>' +
+    '<button class="btn btn-primary btn-nova" style="margin-top:14px" data-act="meta-nova">' + ico('plus') + ' Nova meta</button>' +
     D.metas.map(function(m){
       var p = F.metaProgresso(m);
       var vinc = F.metaVinculada(m);
@@ -2442,7 +2566,7 @@ function telaMetas(){
             (p.aReceber ? '<span class="proj" style="width:' +
               Math.max(0, p.percentualComReceber - p.percentual).toFixed(1) + '%"></span>' : '') +
           '</div>') +
-          '<div style="display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-3);margin-top:7px">' +
+          '<div class="meta-linha">' +
             '<span class="num"><b style="color:var(--ink)">' + fmt(p.acumulado) + '</b>' +
               (p.semAlvo ? ' guardados' : ' de ' + fmt(p.alvo)) + '</span>' +
             '<span>' + (vinc ? F.contasDaMeta(m).map(function(c){ return esc(c.nome); }).join(' + ') : 'sem conta vinculada') + '</span>' +
@@ -2465,7 +2589,7 @@ function telaMetas(){
         (vinc ? '' :
           '<div class="note note-res" style="margin-top:11px">Esta meta ainda não tem conta ligada. ' +
             'Ligando as contas onde você guarda o dinheiro, o progresso passa a subir e descer sozinho.</div>') +
-        '<div style="display:flex;gap:9px;margin-top:12px;flex-wrap:wrap">' +
+        '<div class="btnrow">' +
           '<button class="btn btn-ghost btn-sm" data-act="meta-det" data-id="' + m.id + '">Detalhes</button>' +
           (F.totalAReceber() > 0
             ? '<button class="btn btn-sm" data-act="meta-receber" data-id="' + m.id + '" style="' +
@@ -2546,13 +2670,13 @@ function telaRelatorios(){
       '<svg class="chart" viewBox="0 0 ' + W + ' ' + H + '" preserveAspectRatio="xMidYMid meet" style="height:170px">' +
         '<line x1="0" y1="' + base + '" x2="' + W + '" y2="' + base + '" stroke="var(--line)" stroke-width="1"/>' + barras +
       '</svg>' +
-      '<table class="tbl" style="margin-top:8px"><thead><tr><th>Mês</th><th class="r">Receitas</th><th class="r">Despesas</th><th class="r">Saldo</th></tr></thead><tbody>' +
+      '<div class="tbl-rola" style="margin-top:8px"><table class="tbl"><thead><tr><th>Mês</th><th class="r">Receitas</th><th class="r">Despesas</th><th class="r">Saldo</th></tr></thead><tbody>' +
       meses.slice().reverse().map(function(x){
         return '<tr><td style="text-transform:capitalize">' + F.mesLabel(x.mes) + '</td>' +
           '<td class="r num pos">' + fmt(x.receitas) + '</td>' +
           '<td class="r num neg">' + fmt(x.despesas) + '</td>' +
           '<td class="r num" style="color:' + (x.saldo>=0?'var(--ink)':'var(--neg)') + ';font-weight:650">' + fmt(x.saldo) + '</td></tr>';
-      }).join('') + '</tbody></table>' +
+      }).join('') + '</tbody></table></div>' +
     '</section>';
 
   /* por categoria com drill-down */
@@ -2578,7 +2702,7 @@ function telaRelatorios(){
   var porCartao = F.somaPor(r.despesas.filter(function(x){ return x.cartaoId; }), 'cartaoId');
   var ondeBloco =
     '<section class="card"><div class="card-head"><h2>Onde o gasto passou</h2></div>' +
-      '<table class="tbl"><tbody>' +
+      '<div class="tbl-rola"><table class="tbl"><tbody>' +
       porConta.map(function(x){
         return '<tr><td>' + esc(nomeConta(x.chave)) + ' <span class="tag t-mut">conta</span></td>' +
           '<td class="r num">' + fmt(x.total) + '</td></tr>';
@@ -2587,7 +2711,7 @@ function telaRelatorios(){
         return '<tr><td>' + esc(nomeCartao(x.chave)) + ' <span class="tag t-com">cartão</span></td>' +
           '<td class="r num">' + fmt(x.total) + '</td></tr>';
       }).join('') +
-      '</tbody></table></section>';
+      '</tbody></table></div></section>';
 
   /* evolução do patrimônio */
   var ev = F.evolucaoPatrimonio(Math.min(12, Math.max(3, meses.length)));
@@ -2613,17 +2737,17 @@ function telaRelatorios(){
     ? '<section class="card"><div class="card-head"><h2>Compromissos à frente</h2>' +
         '<span class="num mut" style="font-size:12.5px">' +
         fmt(futuros.filter(function(x){ return x.tipo!=='receita'; }).reduce(function(s,x){ return s+x.valor; },0)) + '</span></div>' +
-        '<table class="tbl"><thead><tr><th>Vencimento</th><th>O quê</th><th class="r">Valor</th></tr></thead><tbody>' +
+        '<div class="tbl-rola"><table class="tbl"><thead><tr><th>Vencimento</th><th>O quê</th><th class="r">Valor</th></tr></thead><tbody>' +
         futuros.slice(0,12).map(function(x){
           return '<tr><td class="num">' + F.dataCurta(x.data) + '</td><td>' + esc(x.titulo) +
             ' <span class="mut">· ' + esc(x.sub) + '</span></td><td class="r num">' + fmt(x.valor) + '</td></tr>';
-        }).join('') + '</tbody></table></section>'
+        }).join('') + '</tbody></table></div></section>'
     : '';
 
   var exportar =
     '<section class="card"><div class="card-head"><h2>Levar para a planilha</h2></div>' +
       '<p class="hint" style="margin:0 0 11px">CSV com separador ponto e vírgula, abre direto no Excel brasileiro.</p>' +
-      '<div style="display:flex;gap:9px;flex-wrap:wrap">' +
+      '<div class="btnrow" style="margin-top:0">' +
         '<button class="btn btn-ghost btn-sm" data-act="csv-mov">' + ico('file') + ' Movimentações</button>' +
         '<button class="btn btn-ghost btn-sm" data-act="csv-cat">' + ico('file') + ' Resumo por categoria</button>' +
       '</div></section>';
@@ -4217,7 +4341,8 @@ var ACOES = {
   'mes-hoje': function(){ UI.mes = F.mesAtual(); render(); },
 
   'mov-tipo': function(id){ UI.movTipo = id; render(); },
-  'mov-limpar': function(){ UI.movTipo='todos'; UI.movConta=''; UI.movCat=''; UI.movBusca=''; UI.movPeriodo='mes'; render(); },
+  'mov-filtros': function(){ UI.movFiltros = !UI.movFiltros; render(); },
+  'mov-limpar': function(){ UI.movTipo='todos'; UI.movConta=''; UI.movCat=''; UI.movBusca=''; UI.movPeriodo='mes'; UI.movFiltros=false; render(); },
   'mov-det': detalheMov,
   'mov-editar': function(id){
     var m = F.getDB().mov.filter(function(x){ return x.id === id; })[0];
@@ -4822,7 +4947,8 @@ function nuvemResumo(){
   if (N.estado === 'offline')   return { cor:'alerta', t:'Sem internet', d:'Vai subir quando voltar' };
   if (N.estado === 'puxando')   return { cor:'ok', busy:1, t:'Verificando…', d:'' };
   if (N.estado === 'enviando')  return { cor:'ok', busy:1, t:'Salvando na nuvem…', d:'' };
-  return { cor:'ok', t: N.sujo ? 'Pendente de envio' : 'Tudo sincronizado',
+  return { cor:'ok', quieto: !N.sujo,
+           t: N.sujo ? 'Pendente de envio' : 'Tudo sincronizado',
            d: N.ultimo ? 'última vez ' + horaCurta(N.ultimo) : '' };
 }
 function horaCurta(iso){
@@ -4837,7 +4963,8 @@ function horaCurta(iso){
 
 function nuvemPill(){
   var r = nuvemResumo();
-  return '<button class="nuvem-pill n-' + r.cor + (r.busy ? ' n-busy' : '') + '" data-nuvem-pill data-act="nuvem" ' +
+  return '<button class="nuvem-pill n-' + r.cor + (r.busy ? ' n-busy' : '') +
+    (r.quieto ? ' n-quieto' : '') + '" data-nuvem-pill data-act="nuvem" ' +
     'title="' + esc(r.t + (r.d ? ' — ' + r.d : '')) + '" aria-label="' + esc('Nuvem: ' + r.t) + '">' +
     '<i class="dot"></i><span>' + esc(r.t) + '</span></button>';
 }
@@ -4845,7 +4972,8 @@ function pintarNuvem(){
   var ns = document.querySelectorAll('[data-nuvem-pill]');
   for (var i=0;i<ns.length;i++){
     var r = nuvemResumo();
-    ns[i].className = 'nuvem-pill n-' + r.cor + (r.busy ? ' n-busy' : '');
+    ns[i].className = 'nuvem-pill n-' + r.cor + (r.busy ? ' n-busy' : '') +
+                      (r.quieto ? ' n-quieto' : '');
     ns[i].innerHTML = '<i class="dot"></i><span>' + esc(r.t) + '</span>';
     ns[i].setAttribute('title', r.t + (r.d ? ' — ' + r.d : ''));
   }
@@ -4892,12 +5020,15 @@ function formNuvemConfig(){
     '<div class="sheet-head"><h2>Ligar a nuvem</h2>' +
       '<button class="iconbtn" data-act="fechar" aria-label="Fechar">' + ico('close') + '</button></div>' +
     '<p class="hint" style="margin-top:6px">Cole os dois dados do seu projeto no Supabase. ' +
-      'Eles estão em <b>Project Settings → API</b>. A chave <i>anon public</i> pode ficar visível: ' +
-      'quem protege os dados é o login.</p>' +
+      'Eles estão em <b>Project Settings → API Keys</b>, ou no botão <b>Connect</b> do topo. ' +
+      'A chave pública pode ficar visível: quem protege os dados é o login. ' +
+      'A <i>service_role</i> nunca vai aqui.</p>' +
     '<div class="field"><label for="nvUrl">Endereço do projeto</label>' +
       '<input class="input" id="nvUrl" placeholder="https://xxxxxxxx.supabase.co" data-autofocus value="' + esc(N.url) + '"></div>' +
-    '<div class="field"><label for="nvAnon">Chave anon public</label>' +
-      '<textarea class="input" id="nvAnon" rows="3" placeholder="eyJhbGciOi...">' + esc(N.anon) + '</textarea></div>' +
+    '<div class="field"><label for="nvAnon">Chave pública</label>' +
+      '<textarea class="input" id="nvAnon" rows="3" placeholder="sb_publishable_... ou eyJhbGciOi...">' + esc(N.anon) + '</textarea>' +
+      '<p class="hint">Aparece como <b>Publishable key</b> nos projetos novos e como ' +
+      '<b>anon public</b> nos antigos. Qualquer uma das duas serve.</p></div>' +
     '<div class="field"><label for="nvTab">Tabela</label>' +
       '<input class="input" id="nvTab" value="' + esc(N.tabela) + '"></div>' +
     '<div class="note note-mut">Antes de entrar, rode uma vez o SQL de instalação (arquivo ' +
