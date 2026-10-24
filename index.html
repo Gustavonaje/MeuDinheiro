@@ -164,7 +164,8 @@ button{cursor:pointer;background:none;border:0;padding:0;text-align:inherit}
 .comp-seg{min-width:2px;transition:filter .15s}
 .comp-seg:hover{filter:brightness(1.12)}
 .comp-legend{display:grid;gap:8px;margin-top:14px;grid-template-columns:minmax(0,1fr)}
-@media (min-width:640px){.comp-legend{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:640px){.comp-legend{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:900px){.comp-legend{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .leg{display:flex;align-items:flex-start;gap:8px;text-align:left;width:100%}
 .leg .sw{width:10px;height:10px;border-radius:3px;flex:none;margin-top:5px}
 .leg .n{font-size:12px;color:var(--ink-2);font-weight:600;display:block}
@@ -204,7 +205,8 @@ button.row:hover{background:var(--surface-2)}
 
 .daygroup{margin-top:16px}
 .dayhead{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:0 3px 6px}
-.dayhead .d{font-size:12px;font-weight:700;color:var(--ink-2);text-transform:capitalize}
+.dayhead .d{font-size:12px;font-weight:700;color:var(--ink-2)}
+.dayhead .d::first-letter{text-transform:uppercase}
 .dayhead .t{font-size:12px;color:var(--ink-3)}
 
 .tbl-rola{overflow-x:auto;-webkit-overflow-scrolling:touch}
@@ -243,6 +245,45 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .catlinha:hover{background:var(--surface-2)}
 .minibars{display:flex;gap:3px;height:7px}
 .minibars span{border-radius:99px}
+
+/* ---------------- agenda: linha com ação do lado ---------------- */
+.ag-row{display:flex;align-items:stretch;border-bottom:1px solid var(--line-2);background:var(--surface)}
+.rows .ag-row:last-child{border-bottom:0}
+.ag-abrir{flex:1;min-width:0;display:flex;align-items:center;gap:11px;padding:12px 13px;text-align:left}
+.ag-abrir:hover{background:var(--surface-2)}
+.ag-mid{flex:1;min-width:0}
+.ag-acao{flex:none;width:78px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;border-left:1px solid var(--line-2);background:var(--com-bg);color:var(--com);
+  font-size:11px;font-weight:750;letter-spacing:-.01em}
+.ag-acao svg{width:17px;height:17px}
+.ag-acao:hover{filter:brightness(.95)}
+.ag-acao.a-com{background:var(--com-bg);color:var(--com)}
+.ag-acao.a-pos{background:var(--pos-bg);color:var(--pos)}
+.ag-acao.a-res{background:var(--res-bg);color:var(--res)}
+.ag-acao.a-neg{background:var(--neg-bg);color:var(--neg)}
+.ag-resumo .ag-n{font-size:19px;font-weight:760;letter-spacing:-.03em;margin-top:2px}
+.ag-resumo .hint{margin-top:2px}
+.ag-botoes{margin:14px 0 4px}
+.secao-ag{margin-top:26px}
+.secao-ag h2{font-size:14px;font-weight:700;margin:0 0 10px;letter-spacing:-.01em}
+.card.destaque{border-color:var(--res);box-shadow:0 0 0 3px var(--res-bg),var(--shadow)}
+
+/* ---------------- atalhos de registro ---------------- */
+.atalhos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}
+.atalho{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:7px;
+  padding:13px 6px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface-2);
+  font-size:12px;font-weight:680;color:var(--ink);line-height:1.2;text-align:center;min-height:82px}
+.atalho:hover{border-color:var(--ink-3);background:var(--surface)}
+.atalho .at-ic{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;flex:none}
+.atalho .at-ic svg{width:17px;height:17px}
+.atalho.a-neg .at-ic{background:var(--neg-bg);color:var(--neg)}
+.atalho.a-pos .at-ic{background:var(--pos-bg);color:var(--pos)}
+.atalho.a-com .at-ic{background:var(--com-bg);color:var(--com)}
+.atalho.a-res .at-ic{background:var(--res-bg);color:var(--res)}
+@media (max-width:420px){
+  .atalhos{gap:7px}
+  .atalho{font-size:11.5px;padding:11px 4px;min-height:76px}
+}
 
 /* chips e tags */
 .chips{display:flex;flex-wrap:wrap;gap:7px;padding:2px 0}
@@ -391,6 +432,10 @@ body:has(.scrim.open) .toast.show{transform:translate(-50%,0)}
 
 /* ---------------- acertos de celular ---------------- */
 @media (max-width:1023px){
+  /* a legenda do patrimônio em duas colunas: ocupava meia tela sozinha */
+  .comp-legend{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 12px}
+  .leg .n{font-size:11.5px}
+  .leg .v{font-size:14.5px}
   .btn-sm{height:auto;min-height:40px;padding:8px 12px;white-space:normal;line-height:1.25}
   .seg button{height:auto;min-height:40px;padding:6px 4px;white-space:normal;line-height:1.2}
   .seg.tipos button{font-size:12.5px}
@@ -400,6 +445,8 @@ body:has(.scrim.open) .toast.show{transform:translate(-50%,0)}
   .row{align-items:flex-start;padding:12px 13px}
   .row-ic{margin-top:1px}
   .row-v{align-self:center}
+  .ag-acao{width:66px;font-size:10.5px}
+  .ag-abrir{padding:12px 11px;gap:10px}
   .catgrid{grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:5px}
   .catbtn{min-height:40px;padding:8px;font-size:12px;gap:6px}
   .chart text{font-size:10.5px}
@@ -1410,7 +1457,7 @@ var UI = {
   mes:F.mesAtual(),
   movTipo:'todos', movConta:'', movCat:'', movBusca:'', movPeriodo:'mes', movFiltros:false,
   contaAberta:'', cartaoAberto:'', cartaoComp:'',
-  pendAba:'receber',
+  pendAba:'receber', agQuitados:false, agTudo:false,
   relPeriodo:'3m', relDe:'', relAte:'',
   drill:null
 };
@@ -1524,14 +1571,14 @@ function ligarMoeda(input, aoMudar){
 
 /* ---------- navegação ---------- */
 var TELAS = [
-  { id:'visao',   nome:'Visão geral',    ic:'visao',  mob:1 },
-  { id:'mov',     nome:'Movimentações',  ic:'mov',    mob:1 },
-  { id:'contas',  nome:'Contas',         ic:'conta',  mob:0 },
-  { id:'cartoes', nome:'Cartões',        ic:'cartao', mob:1 },
-  { id:'pend',    nome:'A receber e repor', ic:'pend', mob:0 },
-  { id:'metas',   nome:'Metas',          ic:'meta',   mob:1 },
-  { id:'rel',     nome:'Relatórios',     ic:'rel',    mob:0 },
-  { id:'config',  nome:'Ajustes',        ic:'config', mob:0 }
+  { id:'visao',   nome:'Início',             curto:'Início',  ic:'visao',  mob:1 },
+  { id:'mov',     nome:'Extrato',            curto:'Extrato', ic:'mov',    mob:1 },
+  { id:'pend',    nome:'A pagar e a receber',curto:'Agenda',  ic:'pend',   mob:1 },
+  { id:'metas',   nome:'Metas',              curto:'Metas',   ic:'meta',   mob:1 },
+  { id:'contas',  nome:'Contas',             curto:'Contas',  ic:'conta',  mob:0 },
+  { id:'cartoes', nome:'Cartões',            curto:'Cartões', ic:'cartao', mob:0 },
+  { id:'rel',     nome:'Relatórios',         curto:'Relatórios', ic:'rel', mob:0 },
+  { id:'config',  nome:'Ajustes',            curto:'Ajustes', ic:'config', mob:0 }
 ];
 function nomeTela(id){
   for (var i=0;i<TELAS.length;i++) if (TELAS[i].id === id) return TELAS[i].nome;
@@ -1573,7 +1620,7 @@ function render(){
   else if (UI.tela === 'mov') corpo = telaMovimentacoes();
   else if (UI.tela === 'contas') corpo = telaContas();
   else if (UI.tela === 'cartoes') corpo = telaCartoes();
-  else if (UI.tela === 'pend') corpo = telaPendencias();
+  else if (UI.tela === 'pend') corpo = telaAgenda();
   else if (UI.tela === 'metas') corpo = telaMetas();
   else if (UI.tela === 'rel') corpo = telaRelatorios();
   else if (UI.tela === 'config') corpo = telaConfig();
@@ -1605,7 +1652,7 @@ function render(){
     TELAS.filter(function(t){ return t.mob; }).map(function(t){
       return '<button class="navbtn" data-act="ir" data-id="' + t.id + '"' +
         (UI.tela === t.id ? ' aria-current="page"' : '') + '>' + ico(t.ic) + '<span>' +
-        (t.id === 'mov' ? 'Extrato' : t.nome.split(' ')[0]) + '</span></button>';
+        (t.curto || t.nome) + '</span></button>';
     }).join('') +
     '<button class="navbtn" data-act="mais"' +
       (['contas','pend','rel','config'].indexOf(UI.tela) >= 0 ? ' aria-current="page"' : '') + '>' +
@@ -1797,6 +1844,55 @@ function rowCompromisso(x){
 /* =============================================================
    VISÃO GERAL
    ============================================================= */
+function blocoPrecisaDeVoce(){
+  var hoje = F.hojeISO();
+  var d7 = F.fromISO(hoje); d7.setDate(d7.getDate() + 7);
+  var limite = F.toISO(d7);
+  var urgentes = itensAgenda().filter(function(x){
+    if (x.fluxo === 'entra') return !x.semData && x.data < hoje;   /* só cobrança atrasada */
+    return x.semData || x.data <= limite;
+  });
+  if (!urgentes.length) {
+    return '<section class="card"><div class="card-head"><h2>Precisa de você</h2>' +
+        '<button class="link" data-act="ir" data-id="pend">Ver agenda</button></div>' +
+      '<p class="hint" style="margin:0">Nada vencendo nos próximos sete dias. ' +
+      'O que estiver marcado mais para frente está na agenda.</p></section>';
+  }
+  var mostra = urgentes.slice(0, 4);
+  var resto = urgentes.length - mostra.length;
+  var soma = urgentes.reduce(function(s,x){ return s + (x.fluxo === 'sai' ? x.valor : 0); }, 0);
+  return '<section class="card destaque"><div class="card-head">' +
+      '<h2>Precisa de você</h2>' +
+      '<span class="tag t-neg">' + urgentes.length + '</span>' +
+      '<button class="link" data-act="ir" data-id="pend">Ver agenda</button></div>' +
+    '<div class="rows">' + mostra.map(rowAgenda).join('') + '</div>' +
+    (resto > 0
+      ? '<button class="btn btn-ghost btn-block" style="margin-top:10px" data-act="ir" data-id="pend">' +
+        'mais ' + resto + (resto === 1 ? ' item na agenda' : ' itens na agenda') + '</button>'
+      : '') +
+    (soma ? '<div class="hint" style="margin-top:10px">Somando, são <b class="num">' + fmt(soma) +
+            '</b> para sair nos próximos dias.</div>' : '') +
+  '</section>';
+}
+
+function blocoAtalhos(){
+  var D = F.getDB();
+  var temCartao = D.cartoes.length > 0;
+  function atalho(act, id, rot, icone, tom){
+    return '<button class="atalho ' + tom + '" data-act="' + act + '"' +
+      (id ? ' data-id="' + id + '"' : '') + '>' +
+      '<span class="at-ic">' + ico(icone) + '</span><span>' + rot + '</span></button>';
+  }
+  return '<section class="card"><div class="card-head"><h2>Registrar agora</h2></div>' +
+    '<div class="atalhos">' +
+      atalho('novo-despesa','', 'Gastei','down','a-neg') +
+      atalho('novo-receita','', 'Recebi','up','a-pos') +
+      atalho('novo-transferencia','', 'Transferi','swap','a-com') +
+      (temCartao ? atalho('ir','cartoes','Cartões','cartao','a-res')
+                 : atalho('novo-previsto','','Vou pagar','pend','a-res')) +
+    '</div></section>';
+}
+
 function telaVisao(){
   var D = F.getDB();
   var ind = F.indicadores();
@@ -1815,10 +1911,12 @@ function telaVisao(){
   var comp = barraComposicao(ind);
   var hero =
     '<section class="hero">' +
-      '<div class="eyebrow">Patrimônio financeiro</div>' +
-      '<div class="hero-v num">' + fmt(ind.patrimonio) + '</div>' +
+      '<div class="eyebrow">Disponível para gastar</div>' +
+      '<div class="hero-v num" style="color:' + (ind.disponivel >= 0 ? 'var(--pos)' : 'var(--neg)') + '">' +
+        fmt(ind.disponivel) + '</div>' +
       '<div style="font-size:12.5px;color:var(--ink-3);margin-top:5px">' +
-        'tudo o que está nas suas ' + D.contas.length + (D.contas.length === 1 ? ' conta' : ' contas') + '</div>' +
+        'de <b class="num" style="color:var(--ink-2)">' + fmt(ind.patrimonio) + '</b> que você tem em ' +
+        D.contas.length + (D.contas.length === 1 ? ' conta' : ' contas') + '</div>' +
       comp.barra + comp.legenda +
       (ind.disponivel < 0
         ? '<div class="note note-neg">' + ico('alert','width:13px;height:13px;vertical-align:-2px') +
@@ -1828,19 +1926,6 @@ function telaVisao(){
         ? '<div class="note note-res">As metas somam mais do que existe nas contas. Revise os valores reservados manualmente.</div>'
         : '') +
     '</section>';
-
-  var tiles =
-    '<div class="tiles">' +
-      tile('Disponível', ind.disponivel, 'pos', 'para gastar no dia a dia', 'visao') +
-      tile('Reservado', ind.reservado, 'res', 'guardado para metas', 'metas') +
-      tile('Comprometido', ind.comprometido, 'com', 'faturas e contas a pagar', 'cartoes') +
-      tile('A receber', ind.aReceber, 'rec', 'emprestado a outras pessoas', 'pend') +
-    '</div>' +
-    (ind.aRepor > 0
-      ? '<div class="note note-res">' + ico('swap','width:13px;height:13px;vertical-align:-2px') +
-        ' Você retirou <b>' + fmt(ind.aRepor) + '</b> das suas reservas e ainda não repôs. ' +
-        '<button class="link" data-act="ir" data-id="pend">Ver reposições</button></div>'
-      : '');
 
   /* mês corrente */
   var r = F.resumoPeriodo(iniMes(UI.mes), fimMes(UI.mes));
@@ -1866,7 +1951,6 @@ function telaVisao(){
         : '<div class="hint" style="margin-top:12px">Nenhuma despesa registrada neste mês.</div>') +
     '</section>';
 
-  /* contas */
   var contasBloco =
     '<section class="card">' +
       '<div class="card-head"><h2>Contas</h2>' +
@@ -1874,37 +1958,6 @@ function telaVisao(){
       '<div class="rows">' + D.contas.slice(0,5).map(linhaConta).join('') + '</div>' +
     '</section>';
 
-  /* cartões */
-  var cartoesBloco = '';
-  if (D.cartoes.length) {
-    cartoesBloco =
-      '<section class="card">' +
-        '<div class="card-head"><h2>Cartões</h2>' +
-          '<button class="link" data-act="ir" data-id="cartoes">Ver faturas</button></div>' +
-        '<div class="rows">' + D.cartoes.map(function(c){
-          var abertas = F.faturasAbertas(c.id);
-          var total = abertas.reduce(function(s,f){ return s + f.aberto; }, 0);
-          var prox = abertas[0];
-          return '<button class="row" data-act="cartao-abrir" data-id="' + c.id + '">' +
-            '<span class="row-ic" style="background:' + (c.cor||'var(--com)') + '">' + ico('cartao','width:15px;height:15px') + '</span>' +
-            '<span class="row-mid"><span class="row-t">' + esc(c.nome) + '</span>' +
-            '<span class="row-s">' + (prox ? 'próxima fatura vence ' + F.dataCurta(prox.vencimento) : 'nenhuma fatura em aberto') + '</span></span>' +
-            '<span class="row-v num com">' + fmt(total) + '</span></button>';
-        }).join('') + '</div>' +
-      '</section>';
-  }
-
-  /* compromissos */
-  var comps = proximosCompromissos(5);
-  var compBloco = comps.length
-    ? '<section class="card">' +
-        '<div class="card-head"><h2>Próximos compromissos</h2>' +
-          '<button class="link" data-act="ir" data-id="pend">Ver tudo</button></div>' +
-        '<div class="rows">' + comps.map(rowCompromisso).join('') + '</div>' +
-      '</section>'
-    : '';
-
-  /* metas */
   var metasBloco = '';
   if (D.metas.length) {
     metasBloco =
@@ -1927,7 +1980,6 @@ function telaVisao(){
       '</section>';
   }
 
-  /* últimos lançamentos */
   var ultimos = D.mov.slice().sort(ordemMov).slice(0,6);
   var ultBloco = ultimos.length
     ? '<section class="card">' +
@@ -1937,10 +1989,10 @@ function telaVisao(){
       '</section>'
     : '';
 
-  return hero + tiles +
+  return hero + blocoPrecisaDeVoce() + blocoAtalhos() +
     '<div class="grid grid-2" style="margin-top:14px">' +
-      '<div>' + mesBloco + contasBloco + metasBloco + '</div>' +
-      '<div>' + compBloco + cartoesBloco + ultBloco + '</div>' +
+      '<div>' + mesBloco + contasBloco + '</div>' +
+      '<div>' + metasBloco + ultBloco + '</div>' +
     '</div>';
 }
 
@@ -2215,10 +2267,18 @@ function telaCartoes(){
           '<button class="iconbtn" data-act="cartao-editar" data-id="' + c.id + '" aria-label="Editar cartão">' + ico('edit') + '</button>' +
         '</div>' +
         '<div class="statrow">' +
-          '<div style="flex:1;min-width:130px"><div class="eyebrow">Fatura de ' + F.mesLabel(compAtual, true) + '</div>' +
+          (abertas.length
+            ? '<div style="flex:1;min-width:130px"><div class="eyebrow">Próxima a vencer</div>' +
+              '<div class="num com" style="font-size:21px;font-weight:740">' + fmt(abertas[0].aberto) + '</div>' +
+              '<div style="font-size:11.5px;color:var(--ink-3)">de ' + F.mesLabel(abertas[0].competencia, true) +
+                ' · vence ' + F.dataCurta(abertas[0].vencimento) + '</div></div>'
+            : '<div style="flex:1;min-width:130px"><div class="eyebrow">Próxima a vencer</div>' +
+              '<div class="num pos" style="font-size:21px;font-weight:740">em dia</div>' +
+              '<div style="font-size:11.5px;color:var(--ink-3)">nenhuma fatura em aberto</div></div>') +
+          '<div style="flex:1;min-width:130px"><div class="eyebrow">Acumulando agora</div>' +
             '<div class="num" style="font-size:21px;font-weight:740">' + fmt(f.total) + '</div>' +
-            '<div style="font-size:11.5px;color:var(--ink-3)">vence ' + F.dataCurta(f.vencimento) +
-              (f.quitada ? ' · paga' : f.pago ? ' · pago ' + fmt(f.pago) : '') + '</div></div>' +
+            '<div style="font-size:11.5px;color:var(--ink-3)">fatura de ' + F.mesLabel(compAtual, true) +
+              ' · fecha dia ' + c.diaFechamento + '</div></div>' +
           '<div style="flex:1;min-width:130px"><div class="eyebrow">Total em aberto</div>' +
             '<div class="num com" style="font-size:21px;font-weight:740">' +
               fmt(abertas.reduce(function(s,x){ return s + x.aberto; },0)) + '</div>' +
@@ -2231,8 +2291,11 @@ function telaCartoes(){
         '<div class="btnrow" style="margin-top:13px">' +
           '<button class="btn btn-ghost btn-sm" data-act="cartao-abrir" data-id="' + c.id + '">Ver faturas</button>' +
           '<button class="btn btn-ghost btn-sm" data-act="nova-compra" data-id="' + c.id + '">' + ico('plus') + ' Lançar compra</button>' +
-          (f.aberto > 0 ? '<button class="btn btn-primary btn-sm" data-act="fatura-pagar" data-id="' + c.id +
-            '" data-id2="' + compAtual + '">Pagar fatura</button>' : '') +
+          (abertas.length
+            ? '<button class="btn btn-primary btn-sm" data-act="fatura-pagar" data-id="' + c.id +
+              '" data-id2="' + abertas[0].competencia + '">Pagar fatura de ' +
+              F.mesLabel(abertas[0].competencia, true) + '</button>'
+            : '') +
         '</div>' +
       '</section>';
     }).join('');
@@ -2330,173 +2393,213 @@ function blocoNiveis(){
 }
 
 /* =============================================================
-   A RECEBER E A REPOR
+   AGENDA — tudo que ainda vai acontecer, numa linha do tempo só.
+   Fatura de cartão, conta prevista, pix parcelado, reposição de
+   reserva, dívida com pessoa e dinheiro a receber moravam em
+   quatro lugares diferentes. Agora moram aqui, ordenados por
+   data, cada um com o seu botão de resolver do lado.
    ============================================================= */
-function telaPendencias(){
-  var D = F.getDB();
-  var conc = F.emprestimosPorDirecao('concedido');
-  var obt = F.emprestimosPorDirecao('obtido');
-  var prev = F.previstosAbertos();
 
-  var abas = [
-    { id:'receber', nome:'A receber', n:conc.filter(function(e){ return F.saldoEmprestimo(e)>0; }).length },
-    { id:'devo', nome:'Eu devo', n:obt.filter(function(e){ return F.saldoEmprestimo(e)>0; }).length },
-    { id:'repor', nome:'A repor', n:F.contasARepor().length },
-    { id:'previstos', nome:'Previstos', n:prev.length }
-  ];
-  var chips = '<div class="chips">' + abas.map(function(a){
-    return '<button class="chip" data-act="pend-aba" data-id="' + a.id + '" aria-pressed="' +
-      (UI.pendAba===a.id) + '">' + a.nome + (a.n ? ' (' + a.n + ')' : '') + '</button>';
-  }).join('') + '</div>';
-
-  var topo =
-    '<div class="tiles" style="grid-template-columns:repeat(2,1fr)">' +
-      '<div class="tile"><div class="l">A receber</div><div class="v num rec">' + fmt(F.totalAReceber()) + '</div>' +
-        '<div class="s">emprestado a outras pessoas</div></div>' +
-      '<div class="tile"><div class="l">Eu devo</div><div class="v num neg">' + fmt(F.totalAPagarPessoas()) + '</div>' +
-        '<div class="s">peguei emprestado</div></div>' +
-      '<div class="tile"><div class="l">A repor</div><div class="v num res">' + fmt(F.totalARepor()) + '</div>' +
-        '<div class="s">tirei das minhas reservas</div></div>' +
-      '<div class="tile"><div class="l">Previstos</div><div class="v num com">' + fmt(F.totalPrevisto('despesa')) + '</div>' +
-        '<div class="s">contas que ainda vão chegar</div></div>' +
-    '</div>';
-
-  var corpo = '';
-  if (UI.pendAba === 'receber') corpo = listaEmprestimos(conc, 'concedido');
-  else if (UI.pendAba === 'devo') corpo = listaEmprestimos(obt, 'obtido');
-  else if (UI.pendAba === 'repor') corpo = listaNiveis();
-  else corpo = listaPrevistos(prev);
-
-  return topo + '<div style="margin-top:14px">' + chips + '</div>' + corpo;
+/* quanto do empréstimo já foi quitado, para a linha contar a história inteira */
+function jaAbatido(e, saldo, verbo){
+  var principal = F.movsDoEmprestimo(e.id).filter(function(m){
+    return m.tipo === 'emprestimo_concedido' || m.tipo === 'emprestimo_obtido';
+  }).reduce(function(s,m){ return s + m.valor; }, 0);
+  var pago = principal - saldo;
+  return pago > 0 ? ' · já ' + verbo + ' ' + fmt(pago) : '';
 }
 
-function listaEmprestimos(lista, dir){
-  var botao = '<button class="btn btn-primary" style="margin-top:14px" data-act="' +
-    (dir === 'concedido' ? 'novo-emprestimo' : 'novo-divida') + '">' + ico('plus') + ' ' +
-    (dir === 'concedido' ? 'Registrar empréstimo' : 'Registrar dívida') + '</button>';
-  if (!lista.length) {
-    return botao + vazio('hand', dir === 'concedido' ? 'Ninguém te devendo' : 'Você não deve nada',
-      dir === 'concedido'
-        ? 'Quando você emprestar dinheiro, registre aqui: a saída não vira gasto, vira valor a receber.'
-        : 'Dinheiro que você pega emprestado entra na conta, mas não conta como receita.');
-  }
-  var abertos = lista.filter(function(e){ return F.saldoEmprestimo(e) > 0; });
-  var fechados = lista.filter(function(e){ return F.saldoEmprestimo(e) === 0; });
-  function bloco(titulo, arr){
-    if (!arr.length) return '';
-    return '<div class="daygroup"><div class="dayhead"><span class="d">' + titulo + '</span>' +
-      '<span class="t num">' + fmt(arr.reduce(function(s,e){ return s + F.saldoEmprestimo(e); },0)) + '</span></div>' +
-      '<div class="rows">' + arr.map(function(e){
-        var saldo = F.saldoEmprestimo(e);
-        var movs = F.movsDoEmprestimo(e.id);
-        var principal = movs.filter(function(m){ return m.tipo==='emprestimo_concedido'||m.tipo==='emprestimo_obtido'; })
-          .reduce(function(s,m){ return s+m.valor; },0);
-        var pago = principal - saldo;
-        var atraso = e.prazo && saldo > 0 && e.prazo < F.hojeISO();
-        return '<div class="row" style="padding-right:8px">' +
-          '<button class="row-mid" style="display:flex;align-items:center;gap:11px;text-align:left;min-width:0" ' +
-            'data-act="emp-det" data-id="' + e.id + '">' +
-            '<span class="row-ic" style="background:' + (dir==='concedido'?'var(--rec)':'var(--neg)') + '">' +
-              esc(iniciais(e.pessoa)) + '</span>' +
-            '<span style="flex:1;min-width:0"><span class="row-t">' + esc(e.pessoa) +
-              (atraso ? ' <span class="tag t-neg">atrasado</span>' : '') + '</span>' +
-            '<span class="row-s">' + esc(e.descricao || 'sem motivo anotado') +
-              (pago > 0 ? ' · já ' + (dir==='concedido'?'devolveu ':'paguei ') + fmt(pago) : '') + '</span></span>' +
-            '<span class="row-v num" style="color:' + (saldo ? (dir==='concedido'?'var(--rec)':'var(--neg)') : 'var(--pos)') + '">' +
-              (saldo ? fmt(saldo) : 'quitado') + '</span>' +
-          '</button>' +
-          (saldo
-            ? '<button class="paybtn" data-act="emp-baixa" data-id="' + e.id + '" ' +
-              'aria-label="Registrar ' + (dir==='concedido'?'recebimento':'pagamento') + '">' + ico('plus') + '</button>'
-            : '') +
-        '</div>';
-      }).join('') + '</div></div>';
-  }
-  return botao + bloco(dir === 'concedido' ? 'Em aberto' : 'Ainda devo', abertos) + bloco('Quitados', fechados);
-}
+function itensAgenda(){
+  var D = F.getDB(), out = [];
 
-function listaNiveis(){
-  var acompanhadas = F.contasComNivel();
-  if (!acompanhadas.length) {
-    return vazio('swap','Nenhuma conta de reserva',
-      'Marque uma conta como reserva ou investimento e o app passa a acompanhar o patamar dela sozinho: ' +
-      'se sair dinheiro, aparece aqui quanto falta repor.','conta-nova','Criar conta de reserva');
-  }
-  var comFuro = acompanhadas.filter(function(c){ return F.nivelConta(c).falta > 0; });
-  var ok = acompanhadas.filter(function(c){ return F.nivelConta(c).falta === 0; });
+  D.cartoes.forEach(function(c){
+    F.faturasAbertas(c.id).forEach(function(f){
+      out.push({ fluxo:'sai', data:f.vencimento, tipo:'fatura',
+        titulo:'Fatura ' + c.nome, sub:'de ' + F.mesLabel(f.competencia, true),
+        valor:f.aberto, cor:(c.cor || 'var(--com)'), ic:'cartao',
+        abrir:{ act:'fatura-abrir', id:c.id, id2:f.competencia },
+        acao:{ act:'fatura-pagar', id:c.id, id2:f.competencia, rotulo:'Pagar' } });
+    });
+  });
 
-  function linha(c){
+  F.previstosAbertos().forEach(function(p){
+    var entra = p.tipo === 'receita';
+    var tags = [];
+    if (p.totalParcelas > 1) tags.push({ t:p.parcela + '/' + p.totalParcelas, cls:'t-com' });
+    if (p.repete === 'mensal') tags.push({ t:'todo mês', cls:'t-mut' });
+    out.push({ fluxo: entra ? 'entra' : 'sai', data:p.vencimento, tipo:'previsto', tags:tags,
+      titulo:p.descricao || p.categoria || 'Conta prevista', sub:p.categoria || '',
+      valor:p.valor, cor: entra ? 'var(--pos)' : 'var(--com)', ic: entra ? 'up' : 'pend',
+      abrir:{ act:'prev-det', id:p.id },
+      acao:{ act:'prev-confirmar', id:p.id, rotulo: entra ? 'Recebi' : 'Paguei' } });
+  });
+
+  F.emprestimosPorDirecao('obtido').forEach(function(e){
+    var s = F.saldoEmprestimo(e);
+    if (!s) return;
+    out.push({ fluxo:'sai', data:e.prazo || '', semData:!e.prazo, tipo:'divida',
+      titulo:'Devo a ' + e.pessoa, sub:(e.descricao || 'sem motivo anotado') + jaAbatido(e, s, 'paguei'),
+      valor:s, cor:'var(--neg)', ic:'hand',
+      abrir:{ act:'emp-det', id:e.id },
+      acao:{ act:'emp-baixa', id:e.id, rotulo:'Paguei' } });
+  });
+
+  F.contasARepor().forEach(function(c){
     var nv = F.nivelConta(c);
-    var pc = nv.nivel > 0 ? Math.min(100, nv.saldo/nv.nivel*100) : 100;
-    return '<div class="row" style="display:block;padding:12px 13px">' +
-      '<div style="display:flex;align-items:center;gap:11px">' +
-        '<span class="row-ic" style="background:' + (c.cor||'var(--res)') + '">' + esc(iniciais(c.nome)) + '</span>' +
-        '<span class="row-mid"><span class="row-t">' + esc(c.nome) + '</span>' +
-        '<span class="row-s">patamar ' + fmt(nv.nivel) + ' · saldo ' + fmt(nv.saldo) + '</span></span>' +
-        '<span class="row-v num" style="color:' + (nv.falta?'var(--res)':'var(--pos)') + '">' +
-          (nv.falta ? fmt(nv.falta) : 'em dia') + '</span>' +
-      '</div>' +
-      '<div class="bar" style="margin-top:9px"><span style="width:' + pc.toFixed(1) + '%;background:' +
-        (nv.falta?'var(--res)':'var(--pos)') + '"></span></div>' +
-      '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:8px">' +
-        '<span style="font-size:11.5px;color:var(--ink-3)">' +
-          (nv.falta ? 'saiu dinheiro e ainda não voltou' : 'nada a repor') + '</span>' +
-        '<span style="display:flex;gap:7px">' +
-          (nv.falta ? '<button class="btn btn-sm btn-primary" data-act="repor-conta" data-id="' + c.id + '">Repor ' + fmt(nv.falta) + '</button>' : '') +
-          '<button class="btn btn-sm btn-ghost" data-act="conta-nivel" data-id="' + c.id + '">Patamar</button>' +
-        '</span>' +
-      '</div></div>';
-  }
-  function bloco(t, arr, cor){
-    if (!arr.length) return '';
-    return '<div class="daygroup"><div class="dayhead"><span class="d"' + (cor?' style="color:'+cor+'"':'') + '>' + t + '</span>' +
-      '<span class="t num">' + fmt(arr.reduce(function(s,c){ return s + F.nivelConta(c).falta; },0)) + '</span></div>' +
-      '<div class="rows">' + arr.map(linha).join('') + '</div></div>';
-  }
-  return '<div class="note note-mut" style="margin-top:14px">' +
-      'O patamar é o <b>maior saldo que a conta já teve</b>. Tirou dinheiro, o buraco aparece sozinho — ' +
-      'você não precisa digitar valor nenhum. Depositou acima do patamar, ele sobe e o buraco fecha.' +
-    '</div>' +
-    bloco('Falta repor', comFuro, 'var(--neg)') + bloco('Em dia', ok);
+    out.push({ fluxo:'sai', data:'', semData:true, tipo:'reposicao',
+      titulo:'Repor ' + c.nome, sub:'reserva abaixo do patamar',
+      valor:nv.falta, cor:'var(--res)', ic:'swap',
+      abrir:{ act:'conta-nivel', id:c.id },
+      acao:{ act:'repor-conta', id:c.id, rotulo:'Repor' } });
+  });
+
+  F.emprestimosPorDirecao('concedido').forEach(function(e){
+    var s = F.saldoEmprestimo(e);
+    if (!s) return;
+    out.push({ fluxo:'entra', data:e.prazo || '', semData:!e.prazo, tipo:'receber',
+      titulo:e.pessoa, sub:(e.descricao || 'sem motivo anotado') + jaAbatido(e, s, 'devolveu'),
+      valor:s, cor:'var(--rec)', ic:'hand',
+      abrir:{ act:'emp-det', id:e.id },
+      acao:{ act:'emp-baixa', id:e.id, rotulo:'Recebi' } });
+  });
+
+  out.sort(function(a,b){
+    if (a.semData !== b.semData) return a.semData ? 1 : -1;
+    return String(a.data).localeCompare(String(b.data));
+  });
+  return out;
 }
 
-function listaPrevistos(prev){
-  var botao = '<button class="btn btn-primary" style="margin-top:14px" data-act="novo-previsto">' +
-    ico('plus') + ' Prever uma conta</button>';
-  if (!prev.length) {
-    return botao + vazio('pend','Nada previsto',
-      'Anote contas que você já sabe que vão chegar. Elas não contam como gasto até serem confirmadas.');
+function quandoTexto(iso, semData){
+  if (semData || !iso) return 'sem data marcada';
+  var dias = F.diasEntre(F.hojeISO(), iso);
+  if (dias < 0) return 'venceu há ' + Math.abs(dias) + (Math.abs(dias) === 1 ? ' dia' : ' dias');
+  if (dias === 0) return 'vence hoje';
+  if (dias === 1) return 'vence amanhã';
+  if (dias <= 30) return 'vence em ' + dias + ' dias';
+  return 'vence ' + F.dataCurta(iso);
+}
+
+function rowAgenda(x){
+  var atrasado = !x.semData && x.data && x.data < F.hojeISO();
+  var entra = x.fluxo === 'entra';
+  return '<div class="ag-row">' +
+    '<button class="ag-abrir" data-act="' + x.abrir.act + '" data-id="' + esc(x.abrir.id) + '"' +
+      (x.abrir.id2 ? ' data-id2="' + esc(x.abrir.id2) + '"' : '') + '>' +
+      '<span class="row-ic" style="background:' + x.cor + '">' + ico(x.ic,'width:15px;height:15px') + '</span>' +
+      '<span class="ag-mid"><span class="row-t">' + esc(x.titulo) +
+        (x.tags || []).map(function(g){ return ' <span class="tag ' + g.cls + '">' + esc(g.t) + '</span>'; }).join('') +
+      '</span>' +
+      '<span class="row-s"' + (atrasado ? ' style="color:var(--neg);font-weight:650"' : '') + '>' +
+        (x.sub ? esc(x.sub) + ' · ' : '') + quandoTexto(x.data, x.semData) + '</span></span>' +
+      '<span class="row-v num"' + (entra ? ' style="color:var(--pos)"' : '') + '>' +
+        (entra ? '+ ' : '') + fmt(x.valor) + '</span>' +
+    '</button>' +
+    '<button class="ag-acao a-' + (x.tipo === 'reposicao' ? 'res' : entra ? 'pos'
+          : x.tipo === 'divida' ? 'neg' : 'com') + '" data-act="' + x.acao.act +
+      '" data-id="' + esc(x.acao.id) + '"' + (x.acao.id2 ? ' data-id2="' + esc(x.acao.id2) + '"' : '') +
+      ' title="' + esc(x.acao.rotulo) + '">' +
+      ico('check') + '<span>' + esc(x.acao.rotulo) + '</span></button>' +
+  '</div>';
+}
+
+function grupoAgenda(titulo, arr, cor, limite){
+  if (!arr.length) return '';
+  var soma = arr.reduce(function(s,x){ return s + x.valor; }, 0);
+  var mostra = arr, escondidos = 0;
+  if (limite && arr.length > limite && !UI.agTudo) {
+    mostra = arr.slice(0, limite);
+    escondidos = arr.length - limite;
   }
+  return '<div class="daygroup"><div class="dayhead">' +
+      '<span class="d"' + (cor ? ' style="color:' + cor + '"' : '') + '>' + titulo + '</span>' +
+      '<span class="t num">' + fmt(soma) + '</span></div>' +
+    '<div class="rows">' + mostra.map(rowAgenda).join('') + '</div>' +
+    (escondidos
+      ? '<button class="btn btn-ghost btn-block" style="margin-top:8px" data-act="ag-tudo">' +
+        'mostrar mais ' + escondidos + (escondidos === 1 ? ' item' : ' itens') + '</button>'
+      : (limite && UI.agTudo && arr.length > limite
+          ? '<button class="btn btn-ghost btn-block" style="margin-top:8px" data-act="ag-tudo">mostrar menos</button>'
+          : '')) +
+  '</div>';
+}
+
+function telaAgenda(){
+  var todos = itensAgenda();
+  var sai = todos.filter(function(x){ return x.fluxo === 'sai'; });
+  var entra = todos.filter(function(x){ return x.fluxo === 'entra'; });
+  var ind = F.indicadores();
   var hoje = F.hojeISO();
-  function bloco(t, arr, cor){
-    if (!arr.length) return '';
-    return '<div class="daygroup"><div class="dayhead"><span class="d"' + (cor?' style="color:'+cor+'"':'') + '>' + t + '</span>' +
-      '<span class="t num">' + fmt(arr.reduce(function(s,p){ return s + (p.tipo==='receita'?0:p.valor); },0)) + '</span></div>' +
-      '<div class="rows">' + arr.map(function(p){
-        var dias = F.diasEntre(hoje, p.vencimento);
-        var quando = dias < 0 ? 'venceu há ' + Math.abs(dias) + ' dia(s)' : dias === 0 ? 'vence hoje'
-          : dias === 1 ? 'vence amanhã' : 'vence em ' + dias + ' dias';
-        return '<div class="row">' +
-          '<button class="row-mid" style="display:flex;align-items:center;gap:11px;text-align:left;min-width:0" ' +
-            'data-act="prev-det" data-id="' + p.id + '">' +
-            '<span class="row-ic" style="background:' + (p.tipo==='receita'?'var(--pos)':'var(--com)') + '">' +
-              ico(p.tipo==='receita'?'up':'pend','width:15px;height:15px') + '</span>' +
-            '<span style="flex:1;min-width:0"><span class="row-t">' + esc(p.descricao || p.categoria) +
-              (p.totalParcelas > 1 ? ' <span class="tag t-com">' + p.parcela + '/' + p.totalParcelas + '</span>' : '') +
-              (p.repete==='mensal' ? ' <span class="tag t-mut">todo mês</span>' : '') + '</span>' +
-            '<span class="row-s" style="' + (dias<0?'color:var(--neg)':'') + '">' + esc(p.categoria||'') + ' · ' + quando + '</span></span>' +
-            '<span class="row-v num" style="color:' + (p.tipo==='receita'?'var(--pos)':'var(--ink-2)') + '">' +
-              (p.tipo==='receita'?'+ ':'') + fmt(p.valor) + '</span>' +
-          '</button>' +
-          '<button class="iconbtn" style="border:0;background:var(--pos-bg);color:var(--pos);width:36px;height:36px" ' +
-            'data-act="prev-confirmar" data-id="' + p.id + '" aria-label="Confirmar">' + ico('check') + '</button>' +
-        '</div>';
-      }).join('') + '</div></div>';
+  var d7 = F.fromISO(hoje); d7.setDate(d7.getDate() + 7);
+  var limiteSemana = F.toISO(d7);
+  var fimDoMes = fimMes(F.mesAtual());
+
+  var totalSai = sai.reduce(function(s,x){ return s + x.valor; }, 0);
+  var totalEntra = entra.reduce(function(s,x){ return s + x.valor; }, 0);
+
+  var resumo =
+    '<section class="card ag-resumo">' +
+      '<div class="statrow">' +
+        '<div><div class="eyebrow">Vai sair</div>' +
+          '<div class="num com ag-n">' + fmt(totalSai) + '</div>' +
+          '<div class="hint">tudo que já está marcado</div></div>' +
+        '<div><div class="eyebrow">Vai entrar</div>' +
+          '<div class="num pos ag-n">' + fmt(totalEntra) + '</div>' +
+          '<div class="hint">se todo mundo pagar</div></div>' +
+        '<div><div class="eyebrow">Disponível hoje</div>' +
+          '<div class="num ag-n" style="color:' + (ind.disponivel >= 0 ? 'var(--ink)' : 'var(--neg)') + '">' +
+            fmt(ind.disponivel) + '</div>' +
+          '<div class="hint">já descontando o que vai sair</div></div>' +
+      '</div>' +
+    '</section>';
+
+  var atrasadas = sai.filter(function(x){ return !x.semData && x.data < hoje; });
+  var semana = sai.filter(function(x){ return !x.semData && x.data >= hoje && x.data <= limiteSemana; });
+  var mes = sai.filter(function(x){ return !x.semData && x.data > limiteSemana && x.data <= fimDoMes; });
+  var depois = sai.filter(function(x){ return !x.semData && x.data > fimDoMes; });
+  var semPrazo = sai.filter(function(x){ return x.semData; });
+
+  var corpoSai = sai.length
+    ? grupoAgenda('Venceu', atrasadas, 'var(--neg)') +
+      grupoAgenda('Próximos 7 dias', semana) +
+      grupoAgenda('Ainda este mês', mes) +
+      grupoAgenda('Mais para frente', depois, '', 3) +
+      grupoAgenda('Sem data marcada', semPrazo)
+    : vazio('check','Nada marcado para sair',
+        'Faturas de cartão, contas previstas, parcelas e reposições aparecem aqui assim que existirem.');
+
+  var corpoEntra = entra.length
+    ? '<div class="secao-ag"><h2>Quem me deve</h2>' +
+        '<div class="rows">' + entra.map(rowAgenda).join('') + '</div></div>'
+    : '';
+
+  var quitados = '';
+  if (UI.agQuitados) {
+    var fechados = F.emprestimosPorDirecao('concedido').concat(F.emprestimosPorDirecao('obtido'))
+      .filter(function(e){ return F.saldoEmprestimo(e) === 0; });
+    quitados = '<div class="secao-ag"><h2>Já quitados</h2>' +
+      (fechados.length
+        ? '<div class="rows">' + fechados.map(function(e){
+            return '<button class="row" data-act="emp-det" data-id="' + e.id + '">' +
+              '<span class="row-ic" style="background:var(--pos)">' + ico('check','width:15px;height:15px') + '</span>' +
+              '<span class="row-mid"><span class="row-t">' + esc(e.pessoa) + '</span>' +
+              '<span class="row-s">' + esc(e.descricao || 'sem motivo anotado') + '</span></span>' +
+              '<span class="row-v num pos">quitado</span></button>';
+          }).join('') + '</div>'
+        : '<p class="hint">Nenhum empréstimo quitado ainda.</p>') + '</div>';
   }
-  return botao +
-    bloco('Vencidas', prev.filter(function(p){ return p.vencimento < hoje; }), 'var(--neg)') +
-    bloco('Este mês', prev.filter(function(p){ return p.vencimento >= hoje && F.mesKey(p.vencimento) === F.mesAtual(); })) +
-    bloco('Mais para frente', prev.filter(function(p){ return F.mesKey(p.vencimento) > F.mesAtual(); }));
+
+  var acoes =
+    '<div class="secao-ag"><h2>Registrar outra coisa</h2>' +
+    '<div class="btnrow ag-botoes">' +
+      '<button class="btn btn-ghost" data-act="novo-previsto">' + ico('pend') + ' Prever uma conta</button>' +
+      '<button class="btn btn-ghost" data-act="novo-emprestimo">' + ico('hand') + ' Emprestei a alguém</button>' +
+      '<button class="btn btn-ghost" data-act="novo-divida">' + ico('down') + ' Peguei emprestado</button>' +
+      '<button class="btn btn-ghost" data-act="ag-quitados">' +
+        (UI.agQuitados ? 'Esconder quitados' : 'Ver quitados') + '</button>' +
+    '</div></div>';
+
+  return resumo + corpoSai + corpoEntra + quitados + acoes;
 }
 
 /* =============================================================
@@ -4409,7 +4512,10 @@ var ACOES = {
     }, true);
   },
 
-  'pend-aba': function(id){ UI.pendAba = id; render(); },
+  'novo-despesa': function(){ formMov('despesa'); },
+  'novo-receita': function(){ formMov('receita'); },
+  'ag-quitados': function(){ UI.agQuitados = !UI.agQuitados; render(); },
+  'ag-tudo': function(){ UI.agTudo = !UI.agTudo; render(); },
   'novo-emprestimo': function(){ formMov('emprestimo', { direcao:'concedido' }); },
   'novo-divida': function(){ formMov('emprestimo', { direcao:'obtido' }); },
   'emp-det': detalheEmprestimo,
