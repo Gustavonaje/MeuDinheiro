@@ -1,7 +1,7 @@
 /* Service worker — deixa o app abrir sem internet.
    O nome do cache muda a cada versão publicada, então uma versão
    nova nunca fica presa atrás da antiga. */
-var VERSAO = '84af0ac546';
+var VERSAO = '7656a5f42f';
 var CACHE  = 'meu-dinheiro-' + VERSAO;
 var CASCA  = [
   './', './index.html', './config.js', './manifest.webmanifest',

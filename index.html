@@ -264,6 +264,16 @@ table.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
 .ag-resumo .ag-n{font-size:19px;font-weight:760;letter-spacing:-.03em;margin-top:2px}
 .ag-resumo .hint{margin-top:2px}
 .ag-botoes{margin:14px 0 4px}
+.ag-mes{display:flex;justify-content:flex-start;margin-bottom:12px}
+.selmes{display:flex;align-items:center;gap:4px;background:var(--surface);
+  border:1px solid var(--line);border-radius:999px;padding:3px}
+.selmes .seta{border:0;background:none;width:38px;height:38px}
+.selmes .rotulo{min-width:112px;text-align:center;font-size:13.5px;font-weight:650}
+.selmes .rotulo::first-letter{text-transform:uppercase}
+@media (min-width:1024px){ .selmes .seta{width:34px;height:34px} }
+.ag-composicao{margin-top:12px;padding-top:11px;border-top:1px solid var(--line-2);
+  font-size:12.5px;color:var(--ink-3)}
+.ag-composicao b{color:var(--ink-2);font-weight:700}
 .secao-ag{margin-top:26px}
 .secao-ag h2{font-size:14px;font-weight:700;margin:0 0 10px;letter-spacing:-.01em}
 .card.destaque{border-color:var(--res);box-shadow:0 0 0 3px var(--res-bg),var(--shadow)}
@@ -1604,11 +1614,10 @@ function menuMais(){
 /* ---------- seletor de mês ---------- */
 function seletorMes(){
   var ehAtual = UI.mes === F.mesAtual();
-  return '<div style="display:flex;align-items:center;gap:4px;background:var(--surface);' +
-    'border:1px solid var(--line);border-radius:999px;padding:3px">' +
-    '<button class="iconbtn" style="border:0;background:none;width:32px;height:32px" data-act="mes" data-id="-1" aria-label="Mês anterior">' + ico('left') + '</button>' +
-    '<span class="num" style="min-width:104px;text-align:center;font-size:13px;font-weight:650;text-transform:capitalize">' + F.mesLabel(UI.mes) + '</span>' +
-    '<button class="iconbtn" style="border:0;background:none;width:32px;height:32px" data-act="mes" data-id="1" aria-label="Próximo mês">' + ico('right') + '</button>' +
+  return '<div class="selmes">' +
+    '<button class="iconbtn seta" data-act="mes" data-id="-1" aria-label="Mês anterior">' + ico('left') + '</button>' +
+    '<span class="num rotulo">' + F.mesLabel(UI.mes) + '</span>' +
+    '<button class="iconbtn seta" data-act="mes" data-id="1" aria-label="Próximo mês">' + ico('right') + '</button>' +
     (ehAtual ? '' : '<button class="btn btn-sm btn-ghost" style="margin-left:2px" data-act="mes-hoje">Hoje</button>') +
   '</div>';
 }
@@ -2526,50 +2535,91 @@ function grupoAgenda(titulo, arr, cor, limite){
 
 function telaAgenda(){
   var todos = itensAgenda();
-  var sai = todos.filter(function(x){ return x.fluxo === 'sai'; });
-  var entra = todos.filter(function(x){ return x.fluxo === 'entra'; });
   var ind = F.indicadores();
   var hoje = F.hojeISO();
-  var d7 = F.fromISO(hoje); d7.setDate(d7.getDate() + 7);
-  var limiteSemana = F.toISO(d7);
-  var fimDoMes = fimMes(F.mesAtual());
+  var mes = UI.mes;
+  var ehMesAtual = mes === F.mesAtual();
+  var iniM = iniMes(mes), fimM = fimMes(mes);
+
+  function atrasado(x){ return !x.semData && x.data < hoje; }
+  function dentroDoMes(x){ return !x.semData && x.data >= iniM && x.data <= fimM; }
+
+  /* o que conta no mês escolhido:
+     · o que vence dentro dele
+     · o que já venceu e continua em aberto (vai ter de ser pago de qualquer jeito)
+     · o que não tem data, do lado que sai — repor e dívida sem prazo dependem de você
+     Do lado que entra, o sem data fica de fora: dinheiro que ninguém marcou de
+     devolver não é dinheiro deste mês. Ele continua listado em "Quem me deve". */
+  var sai = todos.filter(function(x){
+    return x.fluxo === 'sai' && (x.semData || atrasado(x) || dentroDoMes(x));
+  });
+  var entra = todos.filter(function(x){ return x.fluxo === 'entra'; });
+  var entraNoMes = entra.filter(function(x){ return atrasado(x) || dentroDoMes(x); });
+  var depois = todos.filter(function(x){
+    return x.fluxo === 'sai' && !x.semData && x.data > fimM;
+  });
 
   var totalSai = sai.reduce(function(s,x){ return s + x.valor; }, 0);
-  var totalEntra = entra.reduce(function(s,x){ return s + x.valor; }, 0);
+  var totalEntra = entraNoMes.reduce(function(s,x){ return s + x.valor; }, 0);
 
+  /* de onde vem o valor que vai sair, para o número não ser uma caixa-preta */
+  var porTipo = { fatura:0, previsto:0, divida:0, reposicao:0 };
+  sai.forEach(function(x){ porTipo[x.tipo] = (porTipo[x.tipo] || 0) + x.valor; });
+  var NOMES = { fatura:'fatura', previsto:'contas', divida:'pessoas', reposicao:'repor' };
+  var composicao = ['fatura','previsto','divida','reposicao']
+    .filter(function(k){ return porTipo[k] > 0; })
+    .map(function(k){ return NOMES[k] + ' <b class="num">' + fmt(porTipo[k]) + '</b>'; })
+    .join(' · ');
+
+  var rotuloMes = F.mesLabel(mes);
+  var mesCurto = rotuloMes.split(' de ')[0];
   var resumo =
+    '<div class="ag-mes">' + seletorMes() + '</div>' +
     '<section class="card ag-resumo">' +
       '<div class="statrow">' +
         '<div><div class="eyebrow">Vai sair</div>' +
           '<div class="num com ag-n">' + fmt(totalSai) + '</div>' +
-          '<div class="hint">tudo que já está marcado</div></div>' +
+          '<div class="hint">em ' + esc(mesCurto) + (porTipo.reposicao > 0
+            ? ', com o que falta repor' : ', contas e faturas') + '</div></div>' +
         '<div><div class="eyebrow">Vai entrar</div>' +
           '<div class="num pos ag-n">' + fmt(totalEntra) + '</div>' +
-          '<div class="hint">se todo mundo pagar</div></div>' +
+          '<div class="hint">em ' + esc(mesCurto) + (entra.length > entraNoMes.length
+            ? ', só o que tem data' : '') + '</div></div>' +
         '<div><div class="eyebrow">Disponível hoje</div>' +
           '<div class="num ag-n" style="color:' + (ind.disponivel >= 0 ? 'var(--ink)' : 'var(--neg)') + '">' +
             fmt(ind.disponivel) + '</div>' +
-          '<div class="hint">já descontando o que vai sair</div></div>' +
+          '<div class="hint">descontando tudo que vai sair</div></div>' +
       '</div>' +
+      (composicao ? '<div class="ag-composicao">' + composicao + '</div>' : '') +
     '</section>';
 
-  var atrasadas = sai.filter(function(x){ return !x.semData && x.data < hoje; });
-  var semana = sai.filter(function(x){ return !x.semData && x.data >= hoje && x.data <= limiteSemana; });
-  var mes = sai.filter(function(x){ return !x.semData && x.data > limiteSemana && x.data <= fimDoMes; });
-  var depois = sai.filter(function(x){ return !x.semData && x.data > fimDoMes; });
+  var atrasadas = sai.filter(atrasado);
   var semPrazo = sai.filter(function(x){ return x.semData; });
+  var doMes = sai.filter(dentroDoMes);
 
-  var corpoSai = sai.length
+  var corpoMes;
+  if (ehMesAtual) {
+    var d7 = F.fromISO(hoje); d7.setDate(d7.getDate() + 7);
+    var lim7 = F.toISO(d7);
+    corpoMes = grupoAgenda('Próximos 7 dias', doMes.filter(function(x){ return x.data <= lim7; })) +
+               grupoAgenda('Ainda este mês', doMes.filter(function(x){ return x.data > lim7; }));
+  } else {
+    corpoMes = grupoAgenda('Em ' + rotuloMes, doMes);
+  }
+
+  var corpoSai = (sai.length
     ? grupoAgenda('Venceu', atrasadas, 'var(--neg)') +
-      grupoAgenda('Próximos 7 dias', semana) +
-      grupoAgenda('Ainda este mês', mes) +
-      grupoAgenda('Mais para frente', depois, '', 3) +
+      corpoMes +
       grupoAgenda('Sem data marcada', semPrazo)
-    : vazio('check','Nada marcado para sair',
-        'Faturas de cartão, contas previstas, parcelas e reposições aparecem aqui assim que existirem.');
+    : vazio('check','Nada marcado para ' + rotuloMes,
+        'Faturas, contas previstas, parcelas e reposições aparecem aqui assim que caírem neste mês.')) +
+    grupoAgenda('Depois de ' + mesCurto, depois, '', 3);
 
+  var somaReceber = entra.reduce(function(s,x){ return s + x.valor; }, 0);
   var corpoEntra = entra.length
-    ? '<div class="secao-ag"><h2>Quem me deve</h2>' +
+    ? '<div class="secao-ag"><div class="dayhead" style="padding-left:0">' +
+        '<span class="d" style="font-size:14px;font-weight:700;color:var(--ink)">Quem me deve</span>' +
+        '<span class="t num rec">' + fmt(somaReceber) + '</span></div>' +
         '<div class="rows">' + entra.map(rowAgenda).join('') + '</div></div>'
     : '';
 
